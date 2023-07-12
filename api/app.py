@@ -243,7 +243,7 @@ def get_users():
 
 @app.route('/home-test', methods=['GET'])
 def home_test():
-    return render_template('home-test')
+    return render_template('./home-test')
 
 # test route - files upload
 @app.route('/test-upload', methods=['GET'])
