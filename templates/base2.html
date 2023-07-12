@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+
+
+  <title>{% block title %} ENDE 2024 | Profile {% endblock %}</title>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+  <!-- BOOTSTRAP NAVBAR V1 -->
+    <!-- <nav class="navbar navbar-expand-lg navbar navbar-dark bg-primary">
+      <a class="navbar-brand" href="#">ENDE 2024</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">About Us</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/register">Register Course</a>
+          </li>
+        </ul>
+      
+        <div class="nav-item dropdown mx-2 my-sm-0">
+            <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
+              <img src="https://img.icons8.com/windows/32/000000/user.png"/>
+            </button>
+            <ul class="dropdown-menu my-0" style="left: -100px;" role="menu" aria-labelledby="menu1">
+              <li><a class="dropdown-item" href="/my_profile">My Profile</li>
+              <li><a class="dropdown-item" href="/logout">Logout</a></li>
+            </ul>
+          </div>
+      </div>
+    </nav> -->
+    
+    <!-- W3 NAVBAR V2 -->
+    <!-- Navbar -->
+  <div class="w3-top">
+  <div class="w3-bar w3-theme-d2 w3-left-align">
+   <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+   <a href="#" class="w3-bar-item w3-button"><img src='/static/images/logo.png' width=118 height=30/></a>
+   <a href="/schedule" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Schedule</a>
+   <a href="/contact" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Contact</a>
+     <div class="w3-dropdown-hover w3-hide-small">
+        <button class="w3-button" title="Notifications">Submission <i class="fa fa-caret-down"></i></button>     
+        <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+          <a href="/abstract-guidelines" class="w3-bar-item w3-button">Abstract Guidelins</a>
+          <a href="https://docs.google.com/document/u/2/d/1XxWH6wiTGDDwvQIrLrogm6YkPKybFNK5/edit?usp=drive_web&ouid=100762590563982475230&rtpof=true" class="w3-bar-item w3-button" target="_blank">Abstract Template</a>
+          <a href="/abstract_submission" class="w3-bar-item w3-button">How to Submit Abstract</a>
+        </div>
+     </div>
+     <!-- user profile dropdown   -->
+     <div class="w3-dropdown-hover w3-right w3-bar-item  w3-margin-right">
+      <button class="w3-button"><img src="https://img.icons8.com/windows/32/000000/user.png"/ width="20" height="20"/></button>
+      <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="right:0">
+        <a href="/my_profile" class="w3-bar-item w3-button">My Profile</a>
+        <a href="/logout" class="w3-bar-item w3-button">Logout</a>
+      </div>
+    </div>
+      <!-- <div class="w3-dropdown-hover">
+        <button class="w3-bar-item w3-right" title="Notifications"></button>
+          <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+            <a href="/my_profile" class="w3-bar-item w3-button">My Profile</a>
+            <a href="/logout" class="w3-bar-item w3-button">Logout</a>
+          </div>
+      </div>   -->
+   </div>
+   
+  </div>
+ 
+   <!-- Navbar on small screens -->
+   <div id="navDemo" class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium">
+     <a href="#team" class="w3-bar-item w3-button">Team</a>
+     <a href="#work" class="w3-bar-item w3-button">Work</a>
+     <a href="#pricing" class="w3-bar-item w3-button">Price</a>
+     <a href="#contact" class="w3-bar-item w3-button">Contact</a>
+     <a href="/register" class="w3-bar-item w3-button">Register</a>
+   </div>
+
+    {% if alertmessage  %}
+      <div class="alert alert-secondary" role="alert">
+          <p><center>{{ alertmessage }}</center></p>
+      </div>
+    {% endif %}
+    {% block content %}
+    {% include "profile.html"%}
+    {% endblock %}
+ </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+  
+    <script type="text/javascript">
+        jQuery(document).ready(function($){
+        
+            $('.live-search-list div').each(function(){
+            $(this).attr('data-search-term', $(this).text().toLowerCase());
+            });
+              
+            $('.live-search-box').on('keyup', function(){
+              
+            var searchTerm = $(this).val().toLowerCase();
+              
+                $('.live-search-list div').each(function(){
+              
+                    if ($(this).filter('[data-search-term *= ' + searchTerm + ']').length > 0 || searchTerm.length < 1) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+              });
+        });   
+  });
+  </script>
+</body>
+</html>

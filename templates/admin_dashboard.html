@@ -1,0 +1,51 @@
+{% extends "profile.html" %}
+{% block title %}VLEARN | Admin{% endblock %}
+
+{% block content %}
+
+{% if onlineUsers  %}
+    <div class = "row mx-4 my-5" >
+        <div class="card mb-2 mx-4" style="color: teal; width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">Number of Users Online</h5>
+              <h4 class="card-subtitle mb-2 text-muted">{{onlineUsers}}</h4>
+              <a href="#" class="card-link">User Details</a>
+
+            </div>
+        </div>
+        <div class="card mb-2 mx-4" style="color: teal; width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">Number of Students</h5>
+              <h4 class="card-subtitle mb-2 text-muted">{{noOfStd}}</h4>
+              <a href="/add_student" class="card-link">Add</a>
+              <a href="/update_student" class="card-link">Update</a>
+              <a href="/del_student" class="card-link">Delete</a>
+
+            </div>
+        </div>
+        <div class="card mb-2 mx-4" style="color: teal; width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">Number of Instructors</h5>
+              <h4 class="card-subtitle mb-2 text-muted">{{noOfTeachers}}</h4>
+              <a href="/add_instructor" class="card-link">Add</a>
+              <a href="update_instructor" class="card-link">Update</a>
+              <a href="del_instructor" class="card-link">Delete</a>
+
+            </div>
+        </div>
+        <div class="card mb-2 mx-4" style="color: teal; width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">Number of Courses</h5>
+            <h4 class="card-subtitle mb-2 text-muted">{{noOfCourses}}</h4>
+            <a href="/add_course" class="card-link">Add</a>
+            <a href="update_course" class="card-link">Update</a>
+            <a href="del_course" class="card-link">Delete</a>
+
+          </div>
+      </div>
+    </div>
+
+{% endif %}
+
+{% endblock %}
+

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}VLEARN | Signup{% endblock %}
+
+{% block content %}
+
+{% if message  %}
+    <div class="alert alert-secondary" role="alert">
+        <p>{{ message }}</p>
+    </div>
+{% endif %}
+
+<style>
+  .signup-form {
+    width: 340px;
+    margin: 50px auto;
+    font-size: 15px;
+}
+  .signup-form form {
+      margin-bottom: 15px;
+      background: #f7f7f7;
+      box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+      padding: 30px;
+  }
+  .signup-form h2 {
+      margin: 0 0 15px;
+  }
+  .form-control, .btn {
+      min-height: 38px;
+      border-radius: 2px;
+  }
+  .btn {        
+      font-size: 15px;
+      font-weight: bold;
+  }
+</style>
+
+<div class="signup-form">
+  <form action="" method="post">
+      <div class="form-group">
+          <label for="Fullname">Full name</label>
+          <input name="fullname" class="form-control" id="inputFullName" aria-describedby="emailHelp" placeholder="Enter full name">
+          <small id="fullName" class="form-text text-muted">Please enter your full name(First name and Last name)</small>
+       </div>
+      <div class="form-group">
+            <label for="InputEmail">Email address</label>
+            <input name="email" class="form-control" id="InputEmail"  placeholder="Enter email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+      </div>
+
+      <div class="mb-4 pb-2">
+        <select class="form-control" name="role">
+          <option value="1">STUDENT</option>
+          <option value="2">TEACHER</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="InputPassword">Password</label>
+        <input type="password" name="password1" class="form-control" id="InputPassword" placeholder="Password">
+      </div>
+
+      <div class="form-group">
+        <label for="InputPassword2">Repeat Password</label>
+        <input type="password" name="password2" class="form-control" id="InputPassword2" placeholder="Repeat Password">
+      </div>
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+{% endblock %}

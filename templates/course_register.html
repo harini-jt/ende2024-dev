@@ -1,0 +1,55 @@
+{% include "base2.html" %}
+{% block content %}
+
+{% if message  %}
+<div class="alert alert-secondary" role="alert">
+    <p><center>{{ message }}</center></p>
+</div>
+{% endif %}
+<style>
+  .login-form {
+      width: 400px;
+      margin: 50px auto;
+      font-size: 15px;
+  }
+  .login-form form {
+      margin-bottom: 15px;
+      background: #f7f7f7;
+      box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+      padding: 30px;
+  }
+  .login-form h2 {
+      margin: 0 0 15px;
+  }
+  .form-control, .btn {
+      min-height: 38px;
+      border-radius: 2px;
+  }
+  .btn {        
+      font-size: 15px;
+      font-weight: bold;
+  }
+</style>
+<div class="login-form">
+  {%if user and courses_list %}
+  <form action="" method="post">
+    <div class="form-group">
+        <label for="InputEmail">Email</label>
+        <input name="email" class="form-control" id="email"  placeholder="Email ID">
+    </div>
+      <div class="form-group">
+        <label for="course">Course name</label>  
+        <div class="mb-4 pb-2">
+            <select class="form-control" name="course_name" id="course_name">
+              {%for i in range(0, len) %}
+              <option value={{ i }}>{{ courses_list[i]['course_name'] }}</option>
+              {% endfor %}
+            </select>
+        </div>  
+    </div>
+    
+    <button type="submit" id = "submitForm" class="btn btn-primary">Register</button>
+  </form>
+  {%endif%}
+</div>
+{% endblock %}
