@@ -241,9 +241,6 @@ def get_users():
     # return list of users in json
     return jsonify(userList)
 
-@app.route('/home-test', methods=['GET'])
-def home_test():
-    return render_template('home-test')
 
 # test route - files upload
 @app.route('/test-upload', methods=['GET'])
@@ -293,3 +290,36 @@ def test_upload():
 #     gdrive_service=GoogleDriveService().build()
 #     list_file=gdrive_service.files().list(fields=selected_fields).execute()
 #     return {"files":list_file.get("files")}
+
+# @app.route('/profile-update', methods=['POST'])
+# def profile_update():
+#     msg = ''
+#     if 'loggedin' in session:
+#         if request.method == 'POST' and 'name' in request.form and 'mobile' in request.form and 'email' in request.form and 'nationality' in request.form:
+
+#             username = request.form['name']
+#             mobile = request.form['mobile']
+
+#             nationality = request.form['nationality']
+            
+#             user = users.find_one({"email": session["email"]})
+#             users.update(user, {
+#                 '$set': {
+#                     'name': username,
+#                     'mobile': mobile,
+#                     'nationality': nationality
+#                 }
+#             })
+#             # import re 
+#             # if not re.match(r'[^@]+@[^@]+\.[^@]+', session['email']):
+#             #     msg = 'Invalid email address !'
+#             # elif not re.match(r'[A-Za-z0-9]+', username):
+#             #     msg = 'name must contain only characters and numbers !'
+#             # else:   
+#             print(username, mobile, nationality)
+#             msg = 'You have successfully updated !'
+#         elif request.method == 'POST':
+#             msg = 'Please fill out the form !'
+#         return render_template("profile.html", message={msg: msg, 'email': session['email']})
+#     return redirect(url_for('login'))
+ 
