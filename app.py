@@ -120,18 +120,18 @@ def login():
 
 @app.route('/profile', methods=["POST", "GET"])
 def profile():
-    message={
-            'email': '', 
-            'name': '',
-            'mobile': '',
-            'nationality': '',
-            'altemail': '',
-            'affiliation': ''
-        }
+    message = {
+        'email': '',
+        'name': '',
+        'mobile': '',
+        'nationality': '',
+        'altemail': '',
+        'affiliation': ''
+    }
     if "email" in session:
         email = session["email"]
         user = users.find_one({"email": email})
-        
+
         if(user['updated'] != True):
             message['email'], message['name'] = user['email'], user['name']
             return render_template('profile.html',  message=message)
@@ -147,7 +147,7 @@ def profile():
         #     altemail = request.form.get("altemail")
         #     affiliation = request.form.get("affiliation")
         #     # # print the values
-        #     print(username, mobile, nationality, altemail, affiliation) 
+        #     print(username, mobile, nationality, altemail, affiliation)
         #     # # update user details
         #     users.update(user, {
         #         '$set': {
@@ -162,7 +162,7 @@ def profile():
         #     print('user updated')
             # if user['updated'] == True:
             #     message={
-            #         'email': user['email'], 
+            #         'email': user['email'],
             #         'name': user['name'],
             #         'mobile': user['mobile'],
             #         'nationality': user['nationality'],
@@ -170,23 +170,21 @@ def profile():
             #         'affiliation': user['affiliation'] if user['affiliation'] else '',
             #     }
             #     print(message)
-    else: 
+    else:
         return redirect(url_for("login"))
-    return render_template('profile.html', message = message)
+    return render_template('profile.html', message=message)
 
-
-
-    message={
-            'email': '',
-            'name': '',
-            'mobile': '',
-            'nationality': '',
+    message = {
+        'email': '',
+        'name': '',
+        'mobile': '',
+        'nationality': '',
     }
     if "email" in session:
         email = session["email"]
         user = users.find_one({"email": email})
         message['email'], message['name'] = user['email'], user['name']
-        # 
+        #
         if request.method == "POST":
             print('post method called')
             username = request.form.get("name")
@@ -207,6 +205,8 @@ def profile():
     else:
         return redirect(url_for("login"))
 # logout route
+
+
 @app.route('/logout', methods=["POST", "GET"])
 def logout():
     if "email" in session:
@@ -228,6 +228,8 @@ def abstract_submission():
     return render_template('abstract_submission.html')
 
 # test route - get users
+
+
 @app.route('/users', methods=['GET'])
 def get_users():
     userList = []
@@ -256,10 +258,11 @@ def test_upload_page():
         </form>
     '''
 
+
 @app.route('/test-upload-file', methods=['POST'])
 def test_upload():
     # if 'file' in request.files:
-    # # uploaded_file=request.files.get("file") or 
+    # # uploaded_file=request.files.get("file") or
     # uploaded_file= None
     # buffer_memory=BytesIO()
     # uploaded_file.save(buffer_memory)
@@ -274,10 +277,10 @@ def test_upload():
     # }
 
     # returned_fields="id, name, mimeType, webViewLink, exportLinks, appProperties"
-    
+
     # upload_response=service.files().create(
-    #     body = file_metadata, 
-    #     media_body=media_body,  
+    #     body = file_metadata,
+    #     media_body=media_body,
     #     fields=returned_fields
     # ).execute()
 
@@ -301,7 +304,7 @@ def test_upload():
 #             mobile = request.form['mobile']
 
 #             nationality = request.form['nationality']
-            
+
 #             user = users.find_one({"email": session["email"]})
 #             users.update(user, {
 #                 '$set': {
@@ -310,16 +313,18 @@ def test_upload():
 #                     'nationality': nationality
 #                 }
 #             })
-#             # import re 
+#             # import re
 #             # if not re.match(r'[^@]+@[^@]+\.[^@]+', session['email']):
 #             #     msg = 'Invalid email address !'
 #             # elif not re.match(r'[A-Za-z0-9]+', username):
 #             #     msg = 'name must contain only characters and numbers !'
-#             # else:   
+#             # else:
 #             print(username, mobile, nationality)
 #             msg = 'You have successfully updated !'
 #         elif request.method == 'POST':
 #             msg = 'Please fill out the form !'
 #         return render_template("profile.html", message={msg: msg, 'email': session['email']})
 #     return redirect(url_for('login'))
- 
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
