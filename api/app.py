@@ -18,6 +18,7 @@ users = db[os.environ.get('USERS_COLLECTION')]
 
 # home route
 
+
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -30,6 +31,7 @@ def home():
 @app.route('/home', methods=['GET'])
 def back_home():
     return render_template('home.html')
+
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -145,7 +147,7 @@ def signup():
             return render_template('signup.html', signupmessage=message)
         else:
             # hash the password and encode it
-            hashed =password2
+            hashed = password2
             # assigning them in a dictionary
             user_input = {
                 'name': username,
@@ -209,6 +211,7 @@ def upload_abstract():
 @app.route('/schedule', methods=['GET'])
 def schedule():
     return render_template('schedule.html')
+
 
 # logout route
 @app.route('/logout', methods=["POST", "GET"])
