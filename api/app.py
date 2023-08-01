@@ -1,9 +1,6 @@
 import os
-import re
 import pymongo
 from flask import Flask, render_template, redirect, url_for, jsonify, session, request
-from bson.binary import Binary
-from werkzeug.utils import secure_filename
 
 # set app as a Flask instance
 app = Flask(__name__)
@@ -225,48 +222,48 @@ def logout():
 
 
 
-@app.route('/upload', methods=["POST", "GET"])
-def upload_file():
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if "email" in session:
-            if 'file' not in request.files:
-                return redirect(request.url)
+# @app.route('/upload', methods=["POST", "GET"])
+# def upload_file():
+#     if request.method == 'POST':
+#         # check if the post request has the file part
+#         if "email" in session:
+#             if 'file' not in request.files:
+#                 return redirect(request.url)
             
-            file = request.files['file']
-            # If the user does not select a file, the browser submits an
-            # empty file without a filename.
-            if file.filename == '':
-                return redirect(request.url)
-            if file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                #  find user
-                email = session["email"]
-                user = users.find_one({"email": email})
-                #  get user name
-                user_name = user['name']
-                # save file in user document
-                # with open(app.config['UPLOAD_FOLDER'] + '\\'+ filename, "rb") as f:
-                with open(file) as f:
-                    encoded = Binary(f.read())
-                    # user.insert({"filename": filename, "file": encoded, "description": "test" })
-                    # user.update({"filename": filename, "file": encoded, "description": "test" })
-                    # save user in db
-                    users.update_one(user, {
-                        "$set": {
-                            "abstracts":{
-                                "filename": filename,
-                                "file": encoded, 
-                                "description": "test"
-                            }
-                        }})
-                    # users.insert({"filename": filename, "file": encoded, "description": "test" })
-                    print('file saved in db')
-                #  save file in folder
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                return render_template('upload_abstract.html', message="File uploaded successfully 😄")
-            elif not allowed_file(file.filename):
-                return render_template('upload_abstract.html', message="Check the file extension 😞")
-        else:
-            return render_template("/login.html")
-    return render_template('my_upload_base.html', message="Please login to upload file 😞")
+#             file = request.files['file']
+#             # If the user does not select a file, the browser submits an
+#             # empty file without a filename.
+#             if file.filename == '':
+#                 return redirect(request.url)
+#             if file and allowed_file(file.filename):
+#                 filename = secure_filename(file.filename)
+#                 #  find user
+#                 email = session["email"]
+#                 user = users.find_one({"email": email})
+#                 #  get user name
+#                 user_name = user['name']
+#                 # save file in user document
+#                 # with open(app.config['UPLOAD_FOLDER'] + '\\'+ filename, "rb") as f:
+#                 with open(file) as f:
+#                     encoded = Binary(f.read())
+#                     # user.insert({"filename": filename, "file": encoded, "description": "test" })
+#                     # user.update({"filename": filename, "file": encoded, "description": "test" })
+#                     # save user in db
+#                     users.update_one(user, {
+#                         "$set": {
+#                             "abstracts":{
+#                                 "filename": filename,
+#                                 "file": encoded, 
+#                                 "description": "test"
+#                             }
+#                         }})
+#                     # users.insert({"filename": filename, "file": encoded, "description": "test" })
+#                     print('file saved in db')
+#                 #  save file in folder
+#                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+#                 return render_template('upload_abstract.html', message="File uploaded successfully 😄")
+#             elif not allowed_file(file.filename):
+#                 return render_template('upload_abstract.html', message="Check the file extension 😞")
+#         else:
+#             return render_template("/login.html")
+#     return render_template('my_upload_base.html', message="Please login to upload file 😞")
