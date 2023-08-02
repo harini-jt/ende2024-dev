@@ -69,3 +69,36 @@ def login():
             message = 'Email not found'
             return render_template('login.html', message=message)
     return render_template('login.html', message=message)
+
+
+@app.route('/profile', methods=['GET', 'POST'])
+def profile(): 
+    if "email" in session:
+        email = session["email"]
+        user = users.find_one({"email": email})
+        message = {
+            'email': user['email'],
+            'name': user['name'],
+            'mobile': user['mobile'],
+            'country': user['country'],
+            'altemail': user['altemail'],
+            'affiliation': user['affiliation']
+        }
+        if request.method == "POST":
+            message['name'] = request.form['name']
+            message['mobile'] = request.form['mobile']
+            message['country'] = request.form['country']
+            message['altemail'] = request.form['altemail'] if 'altemail' in request.form else ''
+            message['affiliation'] = request.form['affiliation'] if 'affiliation' in request.form else ''
+            # mongo db
+            users.update_one(user, {'$set': {'name': message['name'],
+                'mobile': message['mobile'],
+                'country': message['country'],
+                'altemail': message['altemail'],
+                'affiliation': message['affiliation'],
+                'updated': True
+                }
+            })
+        return render_template('profile.html',  message=message)
+    else:
+        return redirect(url_for("login"))
