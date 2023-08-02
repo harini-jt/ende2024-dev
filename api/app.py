@@ -102,3 +102,16 @@ def profile():
         return render_template('profile.html',  message=message)
     else:
         return redirect(url_for("login"))
+
+# logout route
+@app.route('/logout', methods=["POST", "GET"])
+def logout():
+    if "email" in session:
+        db.users.find_one_and_update(
+            {'email': session['email']},
+            {'$set': {'isOnline': False}})
+        session.pop("email", None)
+        session.pop('loggedin', None)
+        return redirect('/')
+    else:
+        return render_template('signup.html')
