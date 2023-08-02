@@ -26,4 +26,46 @@ def back_home():
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     message = 'Please login to your account'
+    # check if user is logged in
+    if "email" in session:
+        return redirect(url_for("profile"))
+    # if method is post
+    if request.method == "POST":
+        email = request.form.get("email")
+        password = request.form.get("password")
+        # find the user with the email
+        user_found = users.find_one({"email": email})
+        # if user is found
+        if user_found and (not user_found['role'] == 0):
+            # check if password matches
+            if password == user_found['password']:
+                # assign the user to session
+                session['email'] = user_found['email']
+                # redirect to profile page
+                return redirect(url_for("profile"))
+            else:
+                message = 'Wrong Credentials'
+                return render_template('login.html', signupmessage=message)
+         # ADMIN
+        elif user_found and user_found['role'] == os.environ.get('ADMIN'):
+            email_val = user_found['email']
+            passwordcheck = user_found['password']
+            # encode the password and check if it matches
+            if password == passwordcheck:
+                session["email"] = email_val
+                users.find_one_and_update({'email': session['email']}, {
+                    '$set': {'isOnline': True}})
+                return redirect(url_for("admin"))
+
+            else:
+                if "email" in session:
+                    users.find_one_and_update({'email': session['email']}, {
+                        '$set': {'isOnline': True}})
+                    return redirect(url_for("admin"))
+                message = 'Wrong password'
+                return render_template('login.html', message=message)
+
+        else:
+            message = 'Email not found'
+            return render_template('login.html', message=message)
     return render_template('login.html', message=message)
