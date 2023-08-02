@@ -79,6 +79,7 @@ def profile():
         message = {
             'email': user['email'],
             'name': user['name'],
+            'mobile': user['mobile'],
             'country': user['country'],
             'altemail': user['altemail'],
             'affiliation': user['affiliation']
