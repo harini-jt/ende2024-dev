@@ -196,12 +196,12 @@ def upload_abstract():
                     print('file saved in db')
                 #  save file in folder
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                return render_template('my_upload_base.html', signuperror="File uploaded successfully 😄")
+                return render_template('upload_abstract.html', message="File uploaded successfully 😄")
             elif not allowed_file(file.filename):
-                return render_template('my_upload_base.html', signuperror="Check the file extension 😞")
+                return render_template('upload_abstract.html', message="Check the file extension 😞")
         else:
             return render_template("/login.html")
-    return render_template('my_upload_base.html', signuperror=message)
+    return render_template('upload_abstract.html', message='Upload your abstract here')
 
 
 
