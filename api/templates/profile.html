@@ -106,7 +106,7 @@
    <form class="myForm" action="" method="post">
       <fieldset id="name">
         <label for="name">Full Name<font color="red">*</font></label>
-        <input type="text" name="name" id="name" required value={{ message['name'] }} required>
+        <input type="text" name="name" id="name" value = {{ message['name'] }} required>
 
         <label for="email">Email <i>(Not Editable)</i></label>
         <input type="email" name="email" id="email" value={{ message['email'] }} readonly>
@@ -117,13 +117,13 @@
       <fieldset id="alernateuserinfo">
 
         <label for="mobile">Mobile<font color="red">*</font></label>
-        <input type="tel" name="mobile" id="mobile" value={{ message['mobile'] }} required>
+        <input type="tel" name="mobile" id="mobile" value = {{ message['mobile'] }} required>
         
         <label for="country">Country<font color="red">*</font></label>
-        <input type="text" name="country" id="country" value={{ message['country'] }} required>   
+        <input type="text" name="country" id="country" value = {{ message['country'] }} required>   
 
         <label for="altemail">Alternate Email </label>
-        <input type="altemail" name="altemail" value = {{ message['altemail'] }} id="altemail">
+        <input type="email" name="altemail" id="altemail" value = {{ message['altemail'] }}>
       </fieldset>    
       <button type="submit" class="w3-button w3-theme">Update</button>
     </form>

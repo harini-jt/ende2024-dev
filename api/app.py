@@ -1,13 +1,15 @@
 import os
 import pymongo
 from flask import Flask, jsonify, request, render_template, session, redirect, url_for
-
+from werkzeug.utils import secure_filename
+from bson.binary import Binary
 
 # set app as a Flask instance
 app = Flask(__name__)
 # set the secret key
 app.secret_key = os.environ.get('SECRET_KEY')
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+app.config['UPLOAD_FOLDER'] = './static/uploads'
 ALLOWED_EXTENSIONS = {'pdf'}
 
 client = pymongo.MongoClient(os.environ.get('MONGO_URI'))
@@ -22,7 +24,7 @@ def home():
 @app.route('/home', methods=['GET'])
 def back_home():
     return render_template('home.html')
-
+# login route
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     message = 'Please login to your account'
@@ -70,7 +72,7 @@ def login():
             return render_template('login.html', message=message)
     return render_template('login.html', message=message)
 
-
+# signup route
 @app.route('/signup', methods = ['GET', 'POST'])
 def signup():
     message = ''
@@ -118,6 +120,7 @@ def signup():
             return redirect(url_for('profile'))
     return render_template('signup.html', signupmessager=message)
 
+# profile route
 @app.route('/profile', methods=['GET', 'POST'])
 def profile(): 
     if "email" in session:
@@ -149,6 +152,58 @@ def profile():
         return render_template('profile.html',  message=message)
     else:
         return redirect(url_for("login"))
+
+# upload route
+@app.route('/upload_abstract', methods=['GET', 'POST'])
+def upload_abstract():
+    def allowed_file(filename):
+        return '.' in filename and \
+            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if "email" in session:
+            if 'file' not in request.files:
+                return redirect(request.url)
+            
+            file = request.files['file']
+            # If the user does not select a file, the browser submits an
+            # empty file without a filename.
+            if file.filename == '':
+                return redirect(request.url)
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                #  find user
+                email = session["email"]
+                user = users.find_one({"email": email})
+                #  get user name
+                user_name = user['name']
+                # save file in user document
+                with open(app.config['UPLOAD_FOLDER'] + '\\'+ filename, "rb") as f:
+                    encoded = Binary(f.read())
+                    # user.insert({"filename": filename, "file": encoded, "description": "test" })
+                    # user.update({"filename": filename, "file": encoded, "description": "test" })
+                    # save user in db
+                    users.update_one(user, {
+                        "$set": {
+                            "abstracts":{
+                                "filename": filename,
+                                "file": encoded, 
+                                "description": "test"
+                            }
+                        }})
+                    # users.insert({"filename": filename, "file": encoded, "description": "test" })
+                    print('file saved in db')
+                #  save file in folder
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                return render_template('my_upload_base.html', signuperror="File uploaded successfully 😄")
+            elif not allowed_file(file.filename):
+                return render_template('my_upload_base.html', signuperror="Check the file extension 😞")
+        else:
+            return render_template("/login.html")
+    return render_template('my_upload_base.html', signuperror=message)
+
+
 
 # logout route
 @app.route('/logout', methods=["POST", "GET"])
