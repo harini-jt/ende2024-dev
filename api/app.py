@@ -71,6 +71,53 @@ def login():
     return render_template('login.html', message=message)
 
 
+@app.route('/signup', methods = ['GET', 'POST'])
+def signup():
+    message = ''
+    # check if user is logged in
+    if "email" in session:
+        return redirect(url_for("profile"))
+    # if method is post
+    if request.method == "POST":
+        username = request.form.get("name")
+        email = request.form.get("email")
+        password1 = request.form.get("password1")
+        password2 = request.form.get("password2")
+        role = '1'
+
+        user_found = users.find_one({"email": email})
+        if user_found:
+            message = 'This email is already registered to an account'
+            return render_template('signup.html', signupmessage=message)
+        if password1 != password2:
+            message = 'Passwords should match!'
+            return render_template('signup.html', signupmessage=message)
+        else:
+            # hash the password and encode it
+            hashed =password2
+            # assigning them in a dictionary
+            user_input = {
+                'name': username,
+                'email': email,
+                'password': hashed,
+                'mobile': '',
+                'country': '',
+                'altemail': '',
+                'affiliation': '',
+                'role': role,
+                'isOnline': True,
+                'updated': False
+            }
+            # insert the dictionary in the database
+            users.insert_one(user_input)
+            # find the new user and assign it to session
+            user_data = users.find_one({"email": email})
+            session['email'] = user_data['email']
+            session['loggedin'] = True
+            # if registration is successful, redirect to profile page
+            return redirect(url_for('profile'))
+    return render_template('signup.html', signupmessager=message)
+
 @app.route('/profile', methods=['GET', 'POST'])
 def profile(): 
     if "email" in session:
